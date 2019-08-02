@@ -1,4 +1,5 @@
 const soundContainer = document.querySelector('#sound-container')
+const answerContainer = document.querySelector('#answer-container')
 const soundBox = document.querySelector('div.sound-box')
 const sound = new Audio()
 document.querySelector('#sound-container').append(sound)
@@ -8,7 +9,7 @@ const baseURL = "http://localhost:3000"
 const scoreURL = baseURL + '/scores'
 const soundsURL = baseURL + '/sounds'
 
-// const storeOfInformation = {}
+const storeOfInformation = {}
 
 const nasaPOTDURL = 'https://api.nasa.gov/planetary/apod?api_key=2MT9LW9RwKRPovUy0ambXMwhXshbwXCewddh0pGG'
 
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', init)
 
   function init() {
     fetchAndRenderimage()
-    renderNewUserForm()
+    // renderNewUserForm()
     // fetchAndSelectRandomSound()
     playBtn.addEventListener('click', fetchAndSelectRandomSound)
   }
@@ -29,10 +30,29 @@ document.addEventListener('DOMContentLoaded', init)
   const fetchAndSelectRandomSound = () => {
     fetchAllSounds()
     .then(sounds => selectAndPlayRandomSound(sounds))
-    .then(nothing => {
-      debugger
-      setTimeout(someFunction, 3000)
-    })
+    .then(countdownToAnswer)
+    }
+  
+  const countdownToAnswer = () => {
+    let x = document.getElementById("countdown");
+    const a = document.getElementById("answer");
+    const br = () => document.createElement('br')
+    const d = document.getElementById("description");
+    x.innerText = ""
+    a.innerText = ""
+    br.innerText = ""
+    d.innerText = ""
+    answerContainer.append(x, a, br(), d)
+    // debugger
+      setTimeout(function(){ x.innerText="5" }, 1000);
+      setTimeout(function(){ x.innerText="4" }, 2000);
+      setTimeout(function(){ x.innerText="3" }, 3000);
+      setTimeout(function(){ x.innerText="2" }, 4000);
+      setTimeout(function(){ x.innerText="1" }, 5000);
+      setTimeout(function(){ x.innerText="0" }, 6000);
+      setTimeout(function(){ x.innerText="" }, 7000);
+      setTimeout(function(){ a.innerText=`${storeOfInformation.currentSound.title}: ${storeOfInformation.currentSound.description}` }, 7000);
+      // setTimeout(function(){ d.innerText=`${storeOfInformation.currentSound.description}` }, 7000);
   }
 
   const selectAndPlayRandomSound = (sounds) => {
@@ -43,7 +63,7 @@ document.addEventListener('DOMContentLoaded', init)
   function playSound(randomSound) {
     sound.src = randomSound.audio
     sound.play()
-    // storeOfInformation.currentSound = randomSound
+    storeOfInformation.currentSound = randomSound
   }
 
   const renderPOTDBackground = () => {
@@ -59,21 +79,21 @@ document.addEventListener('DOMContentLoaded', init)
     document.body.style.background = `url(${img.url})`;
   }
 
-  const renderNewUserForm = () => {
-    const newUserForm = document.createElement('form')
-    // newUserForm.addEventListener('submit', handleFormSubmission)
+  // const renderNewUserForm = () => {
+  //   const newUserForm = document.createElement('form')
+  //   // newUserForm.addEventListener('submit', handleFormSubmission)
 
-    const usernameInput = document.createElement('input')
-    usernameInput.placeholder = "Insert username..."
-    usernameInput.name = "name"
+  //   const usernameInput = document.createElement('input')
+  //   usernameInput.placeholder = "Insert username..."
+  //   usernameInput.name = "name"
 
-    const submitButton = document.createElement('input')
-    submitButton.value = "Lift off!"
-    submitButton.type = "submit"
+  //   const submitButton = document.createElement('input')
+  //   submitButton.value = "Lift off!"
+  //   submitButton.type = "submit"
 
-    newUserForm.append(usernameInput, submitButton)
-    document.querySelector('#create-user').append(newUserForm)
-  }
+  //   newUserForm.append(usernameInput, submitButton)
+  //   document.querySelector('#create-user').append(newUserForm)
+  // }
 
 
 
@@ -91,18 +111,6 @@ document.addEventListener('DOMContentLoaded', init)
 //   }
 // }
 
-  // const soundFiles = ['audio/_1spookysaturn.mp3',
-  //   'audio/_2kepler_star_KIC12268220C.mp3',
-  //   'audio/_3kepler_star_KIC7671081B.mp3',
-  //   'audio/_4584795main_saturn_radio_waves.mp3',
-  //   'audio/_5584796main_enceladus.mp3',
-  //   'audio/_6598980main_stardust_tempel1.mp3',
-  //   'audio/_7603921main_voyager_jupiter_lightning.mp3',
-  //   'audio/_8693857main_emfisis_chorus_1.mp3',
-  //   'audio/_9bowshock_PIA20754.wav',
-  //   'audio/_10shieldsup.mp3',
-  //   'audio/_11Enceladus Hiss audio 256 kbps.mp3',
-  //   'audio/_12ganymede.mp3']
 
   // const playRandSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
 
